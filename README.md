@@ -21,6 +21,19 @@ Built on [Tether's QVAC SDK](https://www.npmjs.com/package/@qvac/sdk) — all in
 
 Any price or dollar-amount mentions the model might hallucinate are stripped deterministically in code, since a small on-device model has no way to know real current prices.
 
+## Example
+
+Input: `{"item":"salmon fillets"}`
+
+Output (from a real run):
+```json
+{"item":"salmon fillets","swaps":[
+  {"name":"Pork or chicken breast","note":"leaner, milder, and often cheaper, but lower in nutrients and less rich in omega-3s."},
+  {"name":"Turkey or duck breast","note":"slightly leaner than pork or chicken, but still less expensive, with a slightly gamier flavor."},
+  {"name":"Organ meats like liver or tripe","note":"rich in nutrients but often more expensive, with a stronger flavor and firmer texture."}
+]}
+```
+
 ## License
 
 MIT
