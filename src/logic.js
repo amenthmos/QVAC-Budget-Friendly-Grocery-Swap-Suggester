@@ -95,6 +95,19 @@ export async function suggestSwaps(modelId, body) {
   swaps = swaps.filter(
     (s) => s.name && s.name.toLowerCase() !== item.toLowerCase()
   );
+  // The model sometimes suggests something that defeats the whole point of
+  // a BUDGET-friendly suggester by admitting in its own note that the
+  // "alternative" costs more (e.g. "smoked salmon — more expensive"). Drop
+  // any swap whose own note says it's pricier.
+  const COST_INCREASE_PHRASES = [
+    "more expensive", "pricier", "costs more", "higher price", "higher cost",
+    "less affordable", "less budget", "not as cheap", "not cheaper",
+    "extra cost", "added cost", "adds cost", "premium price", "luxurious",
+  ];
+  swaps = swaps.filter((s) => {
+    const combined = `${s.name} ${s.note}`.toLowerCase();
+    return !COST_INCREASE_PHRASES.some((p) => combined.includes(p));
+  });
 
   if (swaps.length === 0) swaps = fallbackSwaps(item);
   swaps = swaps.slice(0, 3);
