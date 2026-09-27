@@ -38,7 +38,9 @@ function parseSwaps(text) {
 
   const swaps = [];
   for (const line of lines) {
-    const m = line.match(/^(.+?)\s*[-–—:]\s*(.+)$/);
+    // Require whitespace around the separator so a hyphenated food name
+    // (e.g. "store-bought yogurt") doesn't get mis-split mid-word.
+    const m = line.match(/^(.+?)\s[-–—:]\s(.+)$/);
     if (m) {
       swaps.push({ name: m[1].trim(), note: m[2].trim() });
     } else if (line.length > 3) {
